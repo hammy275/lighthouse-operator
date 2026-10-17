@@ -7,7 +7,7 @@
 
 [sub_resource type="Gradient" id="Gradient_3v32o"]
 offsets = PackedFloat32Array(0, 0.1, 0.2)
-colors = PackedColorArray(1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0)
+colors = PackedColorArray(1, 1, 0, 1, 1, 1, 0, 0.49803922, 1, 1, 0, 0)
 metadata/_snap_enabled = true
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_3v32o"]
