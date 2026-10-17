@@ -3,7 +3,7 @@ class_name Lighthouse extends Node2D
 ## Maximum number of stages the light can grow across all gameplay conditions.
 var MAX_STAGES: int = 5
 ## The radius increase per stage. Stage 1 is this radius.
-var RADIUS_PER_STAGE: int = 10
+var RADIUS_PER_STAGE: int = 15
 ## Minimum distance the light can be away from the lighthouse.
 var MIN_TRAVEL_RADIUS: int = 100
 ## Maximum distance the light can be away from the lighthouse.

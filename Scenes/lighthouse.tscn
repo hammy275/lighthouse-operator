@@ -12,6 +12,7 @@ shader_parameter/circle_center = Vector2(0, 0)
 shader_parameter/radius_squared = 0.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g4v7s"]
+radius = 15.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3v32o"]
 shader = ExtResource("3_vdw5v")
@@ -24,6 +25,8 @@ metadata/_snap_enabled = true
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_3v32o"]
 gradient = SubResource("Gradient_3v32o")
+width = 96
+height = 96
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
@@ -46,8 +49,8 @@ debug_color = Color(1, 1, 0, 0.49803922)
 
 [node name="LightSpotDisplay" type="TextureRect" parent="Light" unique_id=500188905]
 material = SubResource("ShaderMaterial_3v32o")
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
+offset_left = -48.0
+offset_top = -48.0
+offset_right = 48.0
+offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_3v32o")
