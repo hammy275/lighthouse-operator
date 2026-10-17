@@ -51,20 +51,21 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	# Input handling
-	var input_rotate: float = Input.get_axis("move_left", "move_right") * delta * turn_speed
-	if input_rotate != 0:
-		current_rotation += input_rotate
-		if current_rotation >= PI * 2:
-			current_rotation -= PI * 2
-		elif current_rotation < 0:
-			current_rotation += PI * 2
-		self.calc_and_set_pos()
-	else:
-		var input_inout = Input.get_axis("move_down", "move_up")
-		if input_inout != 0:
-			current_distance += input_inout * inout_speed
-			current_distance = min(max(MIN_TRAVEL_RADIUS, current_distance), MAX_TRAVEL_RADIUS)
+	if not self.doing_relight:
+		var input_rotate: float = Input.get_axis("move_left", "move_right") * delta * turn_speed
+		if input_rotate != 0:
+			current_rotation += input_rotate
+			if current_rotation >= PI * 2:
+				current_rotation -= PI * 2
+			elif current_rotation < 0:
+				current_rotation += PI * 2
 			self.calc_and_set_pos()
+		else:
+			var input_inout = Input.get_axis("move_down", "move_up")
+			if input_inout != 0:
+				current_distance += input_inout * inout_speed
+				current_distance = min(max(MIN_TRAVEL_RADIUS, current_distance), MAX_TRAVEL_RADIUS)
+				self.calc_and_set_pos()
 	
 	# Light radius
 	if self.doing_relight:
