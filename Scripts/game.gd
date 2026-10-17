@@ -43,7 +43,7 @@ func reset_ship_spawn_timer() -> void:
 		self.did_first_ship_spawn = true
 	else:
 		var random = randf() * 2.0 - 1.0
-		$ShipSpawnTimer.start(360.0 / (10.0 + Global.level_num * 8.0) + random)
+		$ShipSpawnTimer.start(360.0 / (8.0 + Global.level_num * 4.0) + random)
 
 
 func _on_ship_spawn_timer_timeout() -> void:
