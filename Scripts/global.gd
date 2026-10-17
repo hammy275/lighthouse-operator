@@ -9,7 +9,7 @@ var current_hour: int = 1
 ## Number of ships that had safe passage.
 var score: int = 0
 ## Active powerups. Stored as a dictionary, since Godot doesn't have sets.
-var powerups: Dictionary[Powerup, bool] = {Powerup.FASTER_MOVEMENT: true}
+var powerups: Dictionary[Powerup, bool] = {}
 
 ## Lighthouse node
 var lighthouse: Lighthouse

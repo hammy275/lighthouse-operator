@@ -11,7 +11,10 @@ const ROTATION_SPEED: float = PI / 32
 
 ## Velocity of the ship.
 var velocity: Vector2 = Vector2.UP
+## Whether this ship has crashed.
 var crashed: bool = false
+## Whether this is a big ship.
+var is_big_ship: bool = false
 
 ## Signal for when the ship leaves the game area.
 signal left_bounds()
@@ -20,7 +23,13 @@ signal did_crash()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	var texture
+	if self.is_big_ship:
+		texture = load("res://Images/Boat/BigBoat.png")
+		$ShipArea.scale = Vector2(2.0, 2.0)
+	else:
+		texture = load("res://Images/Boat/Boat" + str(randi_range(1, 2)) + ".png")
+	$Sprite.texture = texture
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -33,8 +42,8 @@ func _process(delta: float) -> void:
 	var collide_target: CollisionObject2D = get_collide_target()
 	if collide_target != null:
 		# Rotate both directions, "move forward", and see which is farther from the obstacle center.
-		var new_velocity_a: Vector2 = velocity.rotated(ROTATION_SPEED * delta).normalized()
-		var new_velocity_b: Vector2 = velocity.rotated(-ROTATION_SPEED * delta).normalized()
+		var new_velocity_a: Vector2 = velocity.rotated(self.rotation_speed() * delta).normalized()
+		var new_velocity_b: Vector2 = velocity.rotated(-self.rotation_speed() * delta).normalized()
 		
 		var new_pos_a: Vector2 = self.position + new_velocity_a
 		var new_pos_b: Vector2 = self.position + new_velocity_b
@@ -77,6 +86,13 @@ func get_collide_target() -> CollisionObject2D:
 ## Get speed of this ship.
 func get_speed() -> float:
 	return SPEED
+
+
+func rotation_speed() -> float:
+	if self.is_big_ship:
+		return ROTATION_SPEED / 2.0
+	else:
+		return ROTATION_SPEED
 
 
 func _on_on_screen_notifier_screen_exited() -> void:

@@ -46,7 +46,7 @@ func reset_ship_spawn_timer() -> void:
 		self.did_first_ship_spawn = true
 	else:
 		var random = randf() * 2.0 - 1.0
-		$ShipSpawnTimer.start(360.0 / (8.0 + Global.level_num * 4.0) + random)
+		$ShipSpawnTimer.start(30.0 * 10.0 / (6.0 + Global.level_num * 6.0) + random)
 
 
 func _on_ship_spawn_timer_timeout() -> void:
@@ -81,6 +81,8 @@ func spawn_ship() -> void:
 			target.x = get_viewport().size.x
 			target.y = randi_range(0, get_viewport().size.y)
 	ship.velocity = (target - ship.position).normalized() * ship.get_speed()
+	if Global.level_num >= 3 and randf() <= 1.0 / 3.0:
+		ship.is_big_ship = true
 	ship.left_bounds.connect(self._on_ship_left_bounds)
 	$Ships.add_child(ship)
 
