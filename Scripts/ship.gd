@@ -30,6 +30,7 @@ func _ready() -> void:
 	else:
 		texture = load("res://Images/Boat/Boat" + str(randi_range(1, 2)) + ".png")
 	$Sprite.texture = texture
+	$ShipSpawnAudio.play()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
