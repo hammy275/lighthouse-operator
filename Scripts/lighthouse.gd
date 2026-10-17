@@ -72,7 +72,7 @@ func _process(delta: float) -> void:
 		if self.relight_counter >= 10.0:
 			var relight_time: float = STAGE_RELIGHT_TIME
 			if Global.Powerup.BETTER_OIL in Global.powerups:
-				relight_time *= 0.8
+				relight_time *= 0.75
 			current_stage += delta / relight_time
 			if current_stage >= self.max_stage():
 				current_stage = self.max_stage()
@@ -95,9 +95,15 @@ func _process(delta: float) -> void:
 ## Resets the light for entering a new level
 func reset_for_level() -> void:
 	if Global.Powerup.BETTER_OIL in Global.powerups:
-		self.current_stage = 5.0
+		self.current_stage = 6.0
 	else:
 		self.current_stage = 4.0
+	if Global.Powerup.FASTER_MOVEMENT in Global.powerups:
+		self.turn_speed = PI / 4.0
+		self.inout_speed = 0.75
+	else:
+		self.turn_speed = PI / 8.0
+		self.inout_speed = 0.5
 	self.relight_counter = 0.0
 	self.calc_and_set_pos()
 
