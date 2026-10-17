@@ -14,13 +14,16 @@ var START_ROTATION: float = PI / 2.0
 ## Time in seconds to go down by a stage (1.0 in radius).
 var STAGE_DECREASE_TIME: int = 30
 
+@onready
+var light_path_shader: ShaderMaterial = $LightPath.material as ShaderMaterial
+
 ## Turn speed in radians per second.
 var turn_speed: float = PI / 8.0
 ## In/out movement speed in pixels per second.
 var inout_speed: float = 0.5
 
 ## Current radius the light is at.
-var current_radius: float = 4.0
+var current_stage: float = 4.0
 ## Current rotation of the light.
 var current_rotation: float = START_ROTATION
 ## Current distance of the light from the lighthouse.
@@ -39,6 +42,10 @@ func _process(delta: float) -> void:
 	var input_rotate: float = Input.get_axis("move_left", "move_right") * delta * turn_speed
 	if input_rotate != 0:
 		current_rotation += input_rotate
+		if current_rotation >= PI * 2:
+			current_rotation -= PI * 2
+		elif current_rotation < 0:
+			current_rotation += PI * 2
 		self.calc_and_set_pos()
 	else:
 		var input_inout = Input.get_axis("move_down", "move_up")
@@ -48,20 +55,42 @@ func _process(delta: float) -> void:
 			self.calc_and_set_pos()
 	
 	# Light radius
-	current_radius -= delta / STAGE_DECREASE_TIME
-	$Light.scale = Vector2(current_radius, current_radius)
+	current_stage -= delta / STAGE_DECREASE_TIME
+	$Light.scale = Vector2(current_stage, current_stage)
+	
+	# Light path
+	self.update_light_path()
 
 
 ## Resets the light for entering a new level
 func reset_for_level() -> void:
 	if Global.Powerup.BETTER_OIL in Global.powerups:
-		self.current_radius = 5.0
+		self.current_stage = 5.0
 	else:
-		self.current_radius = 4.0
+		self.current_stage = 4.0
 	self.calc_and_set_pos()
 
 ## Calculates and sets the light's position based on its current rotation and distance.
 func calc_and_set_pos() -> void:
 	var angle: Vector2 = Vector2.RIGHT.rotated(self.current_rotation)
 	$Light.position = angle * self.current_distance
+
+## Updates the light path based on the light spot's position and the light radius
+func update_light_path() -> void:
+	var radius = self.current_stage * RADIUS_PER_STAGE
 	
+	var circle_center: Vector2 = $Light.global_position
+	var angle: Vector2 = Vector2.RIGHT.rotated(self.current_rotation + PI / 2.0)
+	var offset: Vector2 = angle * radius
+	
+	var light_origin_center: Vector2 = Vector2($Sprite.global_position.x, $Sprite.global_position.y - $Sprite.get_rect().size.y / 4.0)
+	
+	$LightPath.global_position = Vector2(0, 0)
+	$LightPath.polygon = PackedVector2Array([
+		light_origin_center,
+		circle_center + offset,
+		circle_center - offset,
+	])
+	
+	light_path_shader.set_shader_parameter("circle_center", circle_center)
+	light_path_shader.set_shader_parameter("radius_squared", radius * radius)
