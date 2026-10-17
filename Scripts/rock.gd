@@ -27,6 +27,13 @@ enum Placement {
 @onready
 var rock_shader: ShaderMaterial = $Sprite.material as ShaderMaterial
 
+## Whether the collision rectangle has been built yet.
+var built_collision_rect: bool = false
+## The collision rectangle for this rock.
+var collision_rect: Rect2
+## Whether this rock is currently in light.
+var in_light: bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Randomly roll a rock type
@@ -36,8 +43,11 @@ func _ready() -> void:
 	# Remove collision not corresponding to rock type
 	var to_remove: Array[Node] = []
 	for child: Node in get_children():
-		if child is CollisionShape2D and child.name != collision_name:
-			to_remove.append(child)
+		if child is CollisionShape2D:
+			if child.name == collision_name:
+				self.collision_rect = child.shape.get_rect()
+			else:
+				to_remove.append(child)
 	for child: Node in to_remove:
 		remove_child(child)
 	
@@ -52,3 +62,12 @@ func _process(delta: float) -> void:
 	# Update rock shader based on lighthouse info.
 	rock_shader.set_shader_parameter("circle_center", Global.lighthouse.get_light_center())
 	rock_shader.set_shader_parameter("radius_squared", Global.lighthouse.get_light_radius_squared())
+	queue_redraw()
+
+## Get the collision rectangle for this rock in world space.
+func get_collision_rect() -> Rect2:
+	if not self.built_collision_rect:
+		# Need to translate from local space to world space.
+		self.collision_rect = Rect2(self.position.x, self.position.y, self.collision_rect.size.x, self.collision_rect.size.y)
+		self.built_collision_rect = true
+	return self.collision_rect

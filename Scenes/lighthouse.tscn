@@ -5,6 +5,9 @@
 [ext_resource type="Shader" uid="uid://pdft08h0j2vg" path="res://Shaders/dither.gdshader" id="3_vdw5v"]
 [ext_resource type="Shader" uid="uid://dkqoigsdwa2ih" path="res://Shaders/light_path.gdshader" id="4_ejxau"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(66, 67)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yf5fn"]
 shader = ExtResource("4_ejxau")
 shader_parameter/dither_alpha = 0.5
@@ -30,8 +33,14 @@ height = 96
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[node name="Lighthouse" type="Node2D" unique_id=1137881333]
+[node name="Lighthouse" type="Area2D" unique_id=428206831]
+collision_layer = 2
+collision_mask = 0
 script = ExtResource("1_3v32o")
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1579102352]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_g4v7s")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1310792525]
 scale = Vector2(0.5, 0.5)
@@ -42,6 +51,8 @@ material = SubResource("ShaderMaterial_yf5fn")
 color = Color(1, 1, 0, 1)
 
 [node name="Light" type="Area2D" parent="." unique_id=779316359]
+collision_layer = 8
+collision_mask = 8
 
 [node name="LightCircleShape" type="CollisionShape2D" parent="Light" unique_id=943682256]
 shape = SubResource("CircleShape2D_g4v7s")
@@ -54,3 +65,6 @@ offset_top = -48.0
 offset_right = 48.0
 offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_3v32o")
+
+[connection signal="area_entered" from="Light" to="." method="_on_light_area_entered"]
+[connection signal="area_exited" from="Light" to="." method="_on_light_area_exited"]

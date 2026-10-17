@@ -108,3 +108,13 @@ func get_light_radius() -> float:
 func get_light_radius_squared() -> float:
 	var radius = get_light_radius()
 	return radius * radius
+
+
+func _on_light_area_entered(other: Area2D) -> void:
+	if other is Rock:
+		(other as Rock).in_light = true
+
+
+func _on_light_area_exited(other: Area2D) -> void:
+	if other is Rock:
+		(other as Rock).in_light = false

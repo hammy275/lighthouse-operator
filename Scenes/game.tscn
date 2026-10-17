@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://c1loicnfuquuq" path="res://Scenes/lighthouse.tscn" id="1_ebmjs"]
 [ext_resource type="Script" uid="uid://b8byusgy5dq6h" path="res://Scripts/game.gd" id="1_qxrlw"]
 [ext_resource type="PackedScene" uid="uid://d0rbdkjm5pldx" path="res://Scenes/rock.tscn" id="3_wrm1d"]
+[ext_resource type="PackedScene" uid="uid://cqwfi0p3efb32" path="res://Scenes/ship.tscn" id="4_3dryh"]
 
 [node name="Game" type="Node2D" unique_id=1516169995]
 script = ExtResource("1_qxrlw")
@@ -52,6 +53,12 @@ placement = 4
 [node name="RockR6" parent="Rocks" unique_id=1179018123 instance=ExtResource("3_wrm1d")]
 position = Vector2(-607, -385)
 placement = 4
+
+[node name="Ships" type="Node2D" parent="." unique_id=838387477]
+position = Vector2(0, -8)
+
+[node name="TestShip" parent="Ships" unique_id=1582279788 instance=ExtResource("4_3dryh")]
+position = Vector2(353, 530)
 
 [node name="Lighthouse" parent="." unique_id=1137881333 instance=ExtResource("1_ebmjs")]
 position = Vector2(360, 360)
