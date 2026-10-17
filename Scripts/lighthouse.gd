@@ -13,6 +13,10 @@ var MAX_TRAVEL_RADIUS: int = get_viewport().size.y / 2 - (MAX_STAGES * RADIUS_PE
 var START_ROTATION: float = PI / 2.0
 ## Time in seconds to go down by a stage (1.0 in radius).
 var STAGE_DECREASE_TIME: int = 30
+## Time in seconds until relighting begins after starting the process.
+var BEGIN_RELIGHT_TIME: float = 10.0
+## Time in seconds to relight one stage.
+var STAGE_RELIGHT_TIME: float = 30.0 / 4.0
 
 @onready
 var light_path_shader: ShaderMaterial = $LightPath.material as ShaderMaterial
@@ -21,6 +25,10 @@ var light_path_shader: ShaderMaterial = $LightPath.material as ShaderMaterial
 var turn_speed: float = PI / 8.0
 ## In/out movement speed in pixels per second.
 var inout_speed: float = 0.5
+## Whether light is being relit.
+var doing_relight: bool = false
+## Time spent doing relight
+var relight_counter: float = 0
 
 ## Current radius the light is at.
 var current_stage: float = 4.0
@@ -28,6 +36,9 @@ var current_stage: float = 4.0
 var current_rotation: float = START_ROTATION
 ## Current distance of the light from the lighthouse.
 var current_distance: float = MIN_TRAVEL_RADIUS
+
+## Signal fired when a relight is complete.
+signal relight_done()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -56,7 +67,24 @@ func _process(delta: float) -> void:
 			self.calc_and_set_pos()
 	
 	# Light radius
-	current_stage -= delta / STAGE_DECREASE_TIME
+	if self.doing_relight:
+		if self.relight_counter >= 10.0:
+			var relight_time: float = STAGE_RELIGHT_TIME
+			if Global.Powerup.BETTER_OIL in Global.powerups:
+				relight_time *= 0.8
+			current_stage += delta / relight_time
+			if current_stage >= self.max_stage():
+				current_stage = self.max_stage()
+				self.relight_done.emit()
+				self.doing_relight = false
+				self.relight_counter = 0.0
+		else:
+			self.relight_counter += delta
+	else:
+		current_stage -= delta / STAGE_DECREASE_TIME
+		if current_stage < 0:
+			current_stage = 0
+	
 	$Light.scale = Vector2(current_stage, current_stage)
 	
 	# Light path
@@ -69,6 +97,7 @@ func reset_for_level() -> void:
 		self.current_stage = 5.0
 	else:
 		self.current_stage = 4.0
+	self.relight_counter = 0.0
 	self.calc_and_set_pos()
 
 ## Calculates and sets the light's position based on its current rotation and distance.
@@ -108,6 +137,17 @@ func get_light_radius() -> float:
 func get_light_radius_squared() -> float:
 	var radius = get_light_radius()
 	return radius * radius
+
+## Get maximum stage for light.
+func max_stage() -> float:
+	if Global.Powerup.BETTER_OIL in Global.powerups:
+		return 5.0
+	else:
+		return 4.0
+
+
+func do_relight() -> void:
+	self.doing_relight = true
 
 
 func _on_light_area_entered(other: Area2D) -> void:

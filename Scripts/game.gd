@@ -83,3 +83,12 @@ func get_rocks() -> Array[Rock]:
 	var rocks: Array[Rock]
 	rocks.assign($Rocks.get_children())
 	return rocks
+
+
+func _on_refuel_button_pressed() -> void:
+	$Lighthouse.do_relight()
+	$RefuelButton.disabled = true
+
+
+func _on_lighthouse_relight_done() -> void:
+	$RefuelButton.disabled = false
