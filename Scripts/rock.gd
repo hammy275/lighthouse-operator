@@ -52,8 +52,7 @@ func _ready() -> void:
 		remove_child(child)
 	
 	# Set rock texture based on name
-	var image: Image = Image.load_from_file("res://Images/Rock/" + rock_name + ".png")
-	var texture: ImageTexture = ImageTexture.create_from_image(image)
+	var texture = load("res://Images/Rock/" + rock_name + ".png")
 	$Sprite.texture = texture
 
 
