@@ -9,21 +9,75 @@ const MAX_HARDCODE_OUT: int = 300
 ## Minimum distance the random rocks should be out from center.
 const MIN_RANDOM_OUT: int = 125
 ## Maximum distance the random rocks should be out from center.
-const MAX_RANDOM_OUT: int = 330
+const MAX_RANDOM_OUT: int = 300
 ## Maximum number of attempts to place a rock
 const MAX_PLACEMENT_ATTEMPTS: int = 20
 ## The width and height of each "tile" in the A* search used for building ship paths. Must divide into the viewport height.
 const SEARCH_SIZE: int = 8
+## Ship preloaded scene.
+const SHIP: PackedScene = preload("res://Scenes/ship.tscn")
+
+## Whether the first ship of level 1 has been spawned yet.
+var did_first_ship_spawn: bool = false
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	self.build_game.call_deferred()
+	self.reset_for_level()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
+## Call whenever starting a new level.
+func reset_for_level() -> void:
+	$Lighthouse.reset_for_level()
+	self.reset_ship_spawn_timer()
+
+
+func reset_ship_spawn_timer() -> void:
+	if not self.did_first_ship_spawn:
+		# Give the player 30 seconds to get their bearings and find obstacles.
+		$ShipSpawnTimer.start(30.0)
+		self.did_first_ship_spawn = true
+	else:
+		var random = randf() * 2.0 - 1.0
+		$ShipSpawnTimer.start(360.0 / (10.0 + Global.level_num * 8.0) + random)
+
+
+func _on_ship_spawn_timer_timeout() -> void:
+	self.spawn_ship()
+	self.reset_ship_spawn_timer()
+
+## Spawn a ship.
+func spawn_ship() -> void:
+	var ship: Ship = SHIP.instantiate()
+	var direction: Global.Direction = Global.Direction.values().pick_random()
+	var target: Vector2 = Vector2()
+	match direction:
+		Global.Direction.NORTH:
+			ship.position.x = randi_range(0, get_viewport().size.x)
+			ship.position.y = 0
+			target.x = randi_range(0, get_viewport().size.x)
+			target.y = get_viewport().size.y
+		Global.Direction.SOUTH:
+			ship.position.x = randi_range(0, get_viewport().size.x)
+			ship.position.y = get_viewport().size.y
+			target.x = randi_range(0, get_viewport().size.x)
+			target.y = 0
+		Global.Direction.EAST:
+			ship.position.x = get_viewport().size.x
+			ship.position.y = randi_range(0, get_viewport().size.y)
+			target.x = 0
+			target.y = randi_range(0, get_viewport().size.y)
+		Global.Direction.WEST:
+			ship.position.x = 0
+			ship.position.y = randi_range(0, get_viewport().size.y)
+			target.x = get_viewport().size.x
+			target.y = randi_range(0, get_viewport().size.y)
+	ship.velocity = (target - ship.position).normalized() * ship.get_speed()
+	$Ships.add_child(ship)
 
 ## Build the game state for playing. Only needs to be called once to play.
 func build_game():

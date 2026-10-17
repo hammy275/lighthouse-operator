@@ -74,3 +74,7 @@ func get_collision_of_area(area: Area2D) -> CollisionShape2D:
 		if child is CollisionShape2D:
 			return child
 	return null  # Unreachable if all areas uphold the doc mentioned above
+
+
+func get_speed() -> float:
+	return SPEED

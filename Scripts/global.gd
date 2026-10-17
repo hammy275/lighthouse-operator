@@ -1,6 +1,7 @@
 extends Node
 
 enum Powerup {FASTER_MOVEMENT, BETTER_OIL, STUDY_WATERS, STUDY_SHIPS}
+enum Direction {NORTH, EAST, SOUTH, WEST}
 
 ## Current level number
 var level_num: int = 1

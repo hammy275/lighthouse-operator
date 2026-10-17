@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://c1loicnfuquuq" path="res://Scenes/lighthouse.tscn" id="1_ebmjs"]
 [ext_resource type="Script" uid="uid://b8byusgy5dq6h" path="res://Scripts/game.gd" id="1_qxrlw"]
 [ext_resource type="PackedScene" uid="uid://d0rbdkjm5pldx" path="res://Scenes/rock.tscn" id="3_wrm1d"]
-[ext_resource type="PackedScene" uid="uid://cqwfi0p3efb32" path="res://Scenes/ship.tscn" id="4_3dryh"]
 
 [node name="Game" type="Node2D" unique_id=1516169995]
 script = ExtResource("1_qxrlw")
@@ -57,9 +56,6 @@ placement = 4
 [node name="Ships" type="Node2D" parent="." unique_id=838387477]
 position = Vector2(0, -8)
 
-[node name="TestShip" parent="Ships" unique_id=1582279788 instance=ExtResource("4_3dryh")]
-position = Vector2(353, 530)
-
 [node name="Lighthouse" parent="." unique_id=1137881333 instance=ExtResource("1_ebmjs")]
 position = Vector2(360, 360)
 
@@ -70,5 +66,9 @@ offset_right = 706.0
 offset_bottom = 708.0
 text = "Refuel Light"
 
+[node name="ShipSpawnTimer" type="Timer" parent="." unique_id=1090460522]
+one_shot = true
+
 [connection signal="relight_done" from="Lighthouse" to="." method="_on_lighthouse_relight_done"]
 [connection signal="pressed" from="RefuelButton" to="." method="_on_refuel_button_pressed"]
+[connection signal="timeout" from="ShipSpawnTimer" to="." method="_on_ship_spawn_timer_timeout"]
