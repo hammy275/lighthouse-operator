@@ -71,13 +71,36 @@ one_shot = true
 
 [node name="ScoreLabel" type="Label" parent="." unique_id=83367086]
 offset_left = 614.0
-offset_top = 626.0
+offset_top = 593.0
 offset_right = 696.0
-offset_bottom = 649.0
+offset_bottom = 616.0
 text = "Score: 0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="HourLabel" type="Label" parent="." unique_id=302417794]
+offset_left = 609.0
+offset_top = 610.0
+offset_right = 701.0
+offset_bottom = 633.0
+text = "Hour: 0/12"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="." unique_id=731361472]
+offset_left = 618.0
+offset_top = 627.0
+offset_right = 693.0
+offset_bottom = 650.0
+text = "Level: 1/3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HourCounter" type="Timer" parent="." unique_id=1901566691]
+wait_time = 30.0
+autostart = true
+
 [connection signal="relight_done" from="Lighthouse" to="." method="_on_lighthouse_relight_done"]
 [connection signal="pressed" from="RefuelButton" to="." method="_on_refuel_button_pressed"]
 [connection signal="timeout" from="ShipSpawnTimer" to="." method="_on_ship_spawn_timer_timeout"]
+[connection signal="timeout" from="HourCounter" to="." method="_on_hour_counter_timeout"]

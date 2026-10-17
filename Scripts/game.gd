@@ -48,7 +48,8 @@ func reset_ship_spawn_timer() -> void:
 
 func _on_ship_spawn_timer_timeout() -> void:
 	self.spawn_ship()
-	self.reset_ship_spawn_timer()
+	if Global.current_hour < 10:
+		self.reset_ship_spawn_timer()
 
 ## Spawn a ship.
 func spawn_ship() -> void:
@@ -151,3 +152,10 @@ func _on_refuel_button_pressed() -> void:
 
 func _on_lighthouse_relight_done() -> void:
 	$RefuelButton.disabled = false
+
+
+func _on_hour_counter_timeout() -> void:
+	Global.current_hour += 1
+	$HourLabel.text = "Hour: " + str(Global.current_hour) + "/12"
+	if Global.current_hour > 12:
+		print("TODO: Level complete!")
