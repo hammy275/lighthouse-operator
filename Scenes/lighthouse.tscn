@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c1loicnfuquuq"]
 
 [ext_resource type="Script" uid="uid://0sa2tqr1e331" path="res://Scripts/lighthouse.gd" id="1_3v32o"]
-[ext_resource type="Texture2D" uid="uid://dwbwfhu34byfj" path="res://icon.svg" id="1_yevh3"]
+[ext_resource type="Texture2D" uid="uid://thnmtuuj04sy" path="res://Images/Lighthouse.png" id="2_ejxau"]
 [ext_resource type="Shader" uid="uid://pdft08h0j2vg" path="res://Shaders/dither.gdshader" id="3_vdw5v"]
 [ext_resource type="Shader" uid="uid://dkqoigsdwa2ih" path="res://Shaders/light_path.gdshader" id="4_ejxau"]
 
@@ -43,8 +43,7 @@ position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_g4v7s")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1310792525]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_yevh3")
+texture = ExtResource("2_ejxau")
 
 [node name="LightPath" type="Polygon2D" parent="." unique_id=1445128242]
 material = SubResource("ShaderMaterial_yf5fn")
