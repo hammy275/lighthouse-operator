@@ -36,7 +36,7 @@ func place_rocks() -> void:
 	for rock: Rock in self.get_rocks():
 		if rock.placement == rock.Placement.RANDOM:
 			for i in range(MAX_PLACEMENT_ATTEMPTS):
-				var vec = Vector2.RIGHT.rotated(randf_range(0, PI / 2.0)) * randi_range(MIN_RANDOM_OUT, MAX_RANDOM_OUT)
+				var vec = Vector2.RIGHT.rotated(randf_range(0, PI * 2.0)) * randi_range(MIN_RANDOM_OUT, MAX_RANDOM_OUT)
 				rock.position = viewport_center + vec
 				if not is_nearby_other_rocks(rock):
 					break
