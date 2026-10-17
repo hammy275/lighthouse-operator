@@ -69,6 +69,15 @@ text = "Refuel Light"
 [node name="ShipSpawnTimer" type="Timer" parent="." unique_id=1090460522]
 one_shot = true
 
+[node name="ScoreLabel" type="Label" parent="." unique_id=83367086]
+offset_left = 614.0
+offset_top = 626.0
+offset_right = 696.0
+offset_bottom = 649.0
+text = "Score: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="relight_done" from="Lighthouse" to="." method="_on_lighthouse_relight_done"]
 [connection signal="pressed" from="RefuelButton" to="." method="_on_refuel_button_pressed"]
 [connection signal="timeout" from="ShipSpawnTimer" to="." method="_on_ship_spawn_timer_timeout"]

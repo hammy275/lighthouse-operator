@@ -14,9 +14,9 @@ var START_ROTATION: float = PI / 2.0
 ## Time in seconds to go down by a stage (1.0 in radius).
 var STAGE_DECREASE_TIME: int = 30
 ## Time in seconds until relighting begins after starting the process.
-var BEGIN_RELIGHT_TIME: float = 10.0
+var BEGIN_RELIGHT_TIME: float = 5.0
 ## Time in seconds to relight one stage.
-var STAGE_RELIGHT_TIME: float = 30.0 / 4.0
+var STAGE_RELIGHT_TIME: float = 15.0 / 4.0
 
 @onready
 var light_path_shader: ShaderMaterial = $LightPath.material as ShaderMaterial

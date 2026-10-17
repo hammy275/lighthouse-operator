@@ -39,7 +39,7 @@ func reset_for_level() -> void:
 func reset_ship_spawn_timer() -> void:
 	if not self.did_first_ship_spawn:
 		# Give the player 30 seconds to get their bearings and find obstacles.
-		$ShipSpawnTimer.start(30.0)
+		$ShipSpawnTimer.start(1.0)
 		self.did_first_ship_spawn = true
 	else:
 		var random = randf() * 2.0 - 1.0
@@ -77,7 +77,20 @@ func spawn_ship() -> void:
 			target.x = get_viewport().size.x
 			target.y = randi_range(0, get_viewport().size.y)
 	ship.velocity = (target - ship.position).normalized() * ship.get_speed()
+	ship.left_bounds.connect(self._on_ship_left_bounds)
 	$Ships.add_child(ship)
+
+func _on_ship_left_bounds() -> void:
+	Global.score += 1
+	self.update_score_label()
+
+func _on_ship_did_crash() -> void:
+	Global.score = max(Global.score - 3, 0)
+	self.update_score_label()
+
+func update_score_label() -> void:
+	$ScoreLabel.text = "Score: " + str(Global.score)
+
 
 ## Build the game state for playing. Only needs to be called once to play.
 func build_game():

@@ -13,6 +13,11 @@ const ROTATION_SPEED: float = PI / 32
 var velocity: Vector2 = Vector2.UP
 var crashed: bool = false
 
+## Signal for when the ship leaves the game area.
+signal left_bounds()
+## Signal for when the ship crashes.
+signal did_crash()
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass
@@ -47,6 +52,7 @@ func _process(delta: float) -> void:
 		var collision: CollisionShape2D = self.get_collision_of_area(area)
 		if collision.shape.get_rect().has_point(self.position):
 			self.crashed = true
+			self.did_crash.emit()
 
 ## Get the nearest target that the ship can collide with.
 func get_collide_target() -> CollisionObject2D:
@@ -78,3 +84,8 @@ func get_collision_of_area(area: Area2D) -> CollisionShape2D:
 
 func get_speed() -> float:
 	return SPEED
+
+
+func _on_on_screen_notifier_screen_exited() -> void:
+	self.left_bounds.emit()
+	self.queue_free()
