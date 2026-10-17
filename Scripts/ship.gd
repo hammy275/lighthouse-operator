@@ -46,12 +46,12 @@ func _process(delta: float) -> void:
 	# Move based on velocity
 	self.position += self.velocity * delta
 	
-	# Check if our position (rather than our entire collision area to be nice and to make ray code easier) is in the obstacle
-	for area: Area2D in self.get_overlapping_areas():
-		var collision: Rect2 = self.get_collision_of_area(area)
-		if collision.has_point(self.position):
-			self.crashed = true
-			self.did_crash.emit()
+	# Check if the RockRayHit in our center (rather than our entire collision area to be nice and to make other ray
+	# code easier) is in a rock.
+	if $RockRayHit.is_colliding():
+		self.crashed = true
+		self.did_crash.emit()
+	
 
 ## Get the nearest target that the ship can collide with.
 func get_collide_target() -> CollisionObject2D:
@@ -72,14 +72,6 @@ func get_collide_target() -> CollisionObject2D:
 		return rock_target as Rock
 	else:
 		return null
-
-## Get collision for an area. Area must use exactly one CollisionShape2D
-func get_collision_of_area(area: Area2D) -> Rect2:
-	for child in area.get_children():
-		if child is CollisionShape2D:
-			var rect: Rect2 = child.shape.get_rect()
-			return Rect2(rect.position.x + child.global_position.x, rect.position.y + child.global_position.y, rect.size.x, rect.size.y)
-	return Rect2()  # Unreachable if all areas uphold the doc mentioned above
 
 
 ## Get speed of this ship.

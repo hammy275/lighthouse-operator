@@ -39,4 +39,10 @@ collide_with_bodies = false
 position = Vector2(-8, -8)
 rect = Rect2(-8, -8, 32, 30)
 
+[node name="RockRayHit" type="RayCast2D" parent="." unique_id=1927780876]
+target_position = Vector2(0, 0)
+hit_from_inside = true
+collide_with_areas = true
+collide_with_bodies = false
+
 [connection signal="screen_exited" from="OnScreenNotifier" to="." method="_on_on_screen_notifier_screen_exited"]
