@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://c1loicnfuquuq"]
+
+[ext_resource type="Script" uid="uid://0sa2tqr1e331" path="res://Scripts/lighthouse.gd" id="1_3v32o"]
+[ext_resource type="Texture2D" uid="uid://dwbwfhu34byfj" path="res://icon.svg" id="1_yevh3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4v7s"]
+
+[sub_resource type="Gradient" id="Gradient_3v32o"]
+offsets = PackedFloat32Array(0, 0.1, 0.2)
+colors = PackedColorArray(1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3v32o"]
+gradient = SubResource("Gradient_3v32o")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="Lighthouse" type="Node2D" unique_id=1137881333]
+script = ExtResource("1_3v32o")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1310792525]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_yevh3")
+
+[node name="Light" type="Area2D" parent="." unique_id=779316359]
+
+[node name="LightCircleShape" type="CollisionShape2D" parent="Light" unique_id=943682256]
+shape = SubResource("CircleShape2D_g4v7s")
+debug_color = Color(1, 1, 0, 0.49803922)
+
+[node name="LightDisplay" type="TextureRect" parent="Light" unique_id=500188905]
+offset_left = -48.0
+offset_top = -48.0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = SubResource("GradientTexture2D_3v32o")
