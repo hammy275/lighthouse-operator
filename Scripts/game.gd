@@ -39,7 +39,7 @@ func reset_for_level() -> void:
 func reset_ship_spawn_timer() -> void:
 	if not self.did_first_ship_spawn:
 		# Give the player 30 seconds to get their bearings and find obstacles.
-		$ShipSpawnTimer.start(30.0)
+		$ShipSpawnTimer.start(1.0)
 		self.did_first_ship_spawn = true
 	else:
 		var random = randf() * 2.0 - 1.0
@@ -134,14 +134,6 @@ func place_rocks() -> void:
 func is_nearby_other_rocks(rock: Rock):
 	for other: Rock in self.get_rocks():
 		if rock != other and rock.position.distance_squared_to(other.position) < MIN_ROCK_DISTANCE_SQUARED:
-			return true
-	return false
-
-func point_in_obstacle(point: Vector2):
-	if 320 < point.x and point.x < 400 and 320 < point.y and point.y < 400:
-		return true
-	for rock in self.get_rocks():
-		if rock.get_collision_rect().has_point(point):
 			return true
 	return false
 

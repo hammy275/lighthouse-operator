@@ -78,7 +78,7 @@ func get_collision_of_area(area: Area2D) -> Rect2:
 	for child in area.get_children():
 		if child is CollisionShape2D:
 			var rect: Rect2 = child.shape.get_rect()
-			return Rect2(child.global_position.x, child.global_position.y, rect.size.x, rect.size.y)
+			return Rect2(rect.position.x + child.global_position.x, rect.position.y + child.global_position.y, rect.size.x, rect.size.y)
 	return Rect2()  # Unreachable if all areas uphold the doc mentioned above
 
 

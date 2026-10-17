@@ -62,11 +62,3 @@ func _process(delta: float) -> void:
 	rock_shader.set_shader_parameter("circle_center", Global.lighthouse.get_light_center())
 	rock_shader.set_shader_parameter("radius_squared", Global.lighthouse.get_light_radius_squared())
 	queue_redraw()
-
-## Get the collision rectangle for this rock in world space.
-func get_collision_rect() -> Rect2:
-	if not self.built_collision_rect:
-		# Need to translate from local space to world space.
-		self.collision_rect = Rect2(self.position.x, self.position.y, self.collision_rect.size.x, self.collision_rect.size.y)
-		self.built_collision_rect = true
-	return self.collision_rect
