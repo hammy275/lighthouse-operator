@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://thnmtuuj04sy" path="res://Images/Lighthouse.png" id="2_ejxau"]
 [ext_resource type="Shader" uid="uid://pdft08h0j2vg" path="res://Shaders/dither.gdshader" id="3_vdw5v"]
 [ext_resource type="Shader" uid="uid://dkqoigsdwa2ih" path="res://Shaders/light_path.gdshader" id="4_ejxau"]
+[ext_resource type="AudioStream" uid="uid://bihv7hepdibir" path="res://Sound/rotate.wav" id="5_qu26u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(66, 67)
@@ -64,6 +65,9 @@ offset_top = -48.0
 offset_right = 48.0
 offset_bottom = 48.0
 texture = SubResource("GradientTexture2D_3v32o")
+
+[node name="RotateSounds" type="AudioStreamPlayer" parent="." unique_id=294032289]
+stream = ExtResource("5_qu26u")
 
 [connection signal="area_entered" from="Light" to="." method="_on_light_area_entered"]
 [connection signal="area_exited" from="Light" to="." method="_on_light_area_exited"]
