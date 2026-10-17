@@ -32,14 +32,17 @@ func _process(delta: float) -> void:
 
 ## Call whenever starting a new level.
 func reset_for_level() -> void:
+	$LevelCompletePowerupSelect.visible = false
 	$Lighthouse.reset_for_level()
 	self.reset_ship_spawn_timer()
+	while $Ships.get_child_count() > 0:
+		$Ships.remove_child($Ships.get_child(0))
 
 
 func reset_ship_spawn_timer() -> void:
 	if not self.did_first_ship_spawn:
 		# Give the player 30 seconds to get their bearings and find obstacles.
-		$ShipSpawnTimer.start(1.0)
+		$ShipSpawnTimer.start(30.0)
 		self.did_first_ship_spawn = true
 	else:
 		var random = randf() * 2.0 - 1.0
@@ -86,7 +89,9 @@ func _on_ship_left_bounds() -> void:
 	self.update_score_label()
 
 func _on_ship_did_crash() -> void:
-	Global.score = max(Global.score - 3, 0)
+	Global.score -= 3
+	if Global.score < 0:
+		Global.score = 0
 	self.update_score_label()
 
 func update_score_label() -> void:
@@ -158,4 +163,10 @@ func _on_hour_counter_timeout() -> void:
 	Global.current_hour += 1
 	$HourLabel.text = "Hour: " + str(Global.current_hour) + "/12"
 	if Global.current_hour > 12:
-		print("TODO: Level complete!")
+		$LevelCompletePowerupSelect.show()
+		get_tree().paused = true
+
+
+func _on_level_complete_powerup_select_start_next_level() -> void:
+	get_tree().paused = false
+	self.reset_for_level()

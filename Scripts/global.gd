@@ -1,6 +1,6 @@
 extends Node
 
-enum Powerup {FASTER_MOVEMENT, BETTER_OIL, STUDY_WATERS, STUDY_SHIPS}
+enum Powerup {FASTER_MOVEMENT, BETTER_OIL, STUDY_SHIP_MOVEMENT, STUDY_SHIP_VIEW}
 enum Direction {NORTH, EAST, SOUTH, WEST}
 
 ## Current level number
