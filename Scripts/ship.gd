@@ -33,24 +33,23 @@ func _process(delta: float) -> void:
 	var collide_target: CollisionObject2D = get_collide_target()
 	if collide_target != null:
 		# Rotate both directions, "move forward", and see which is farther from the obstacle center.
-		var collision: Vector2 = collide_target.position
-		var new_velocity_a: Vector2 = velocity.rotated(ROTATION_SPEED * delta)
-		var new_velocity_b: Vector2 = velocity.rotated(ROTATION_SPEED * delta)
+		var new_velocity_a: Vector2 = velocity.rotated(ROTATION_SPEED * delta).normalized()
+		var new_velocity_b: Vector2 = velocity.rotated(-ROTATION_SPEED * delta).normalized()
 		
 		var new_pos_a: Vector2 = self.position + new_velocity_a
 		var new_pos_b: Vector2 = self.position + new_velocity_b
-		if new_pos_a.distance_squared_to(collision) < new_pos_b.distance_squared_to(collision):
-			self.velocity = new_velocity_a
+		if new_pos_a.distance_squared_to(collide_target.position) > new_pos_b.distance_squared_to(collide_target.position):
+			self.velocity = new_velocity_a * get_speed()
 		else:
-			self.velocity = new_velocity_b
+			self.velocity = new_velocity_b * get_speed()
 	
 	# Move based on velocity
 	self.position += self.velocity * delta
 	
 	# Check if our position (rather than our entire collision area to be nice and to make ray code easier) is in the obstacle
 	for area: Area2D in self.get_overlapping_areas():
-		var collision: CollisionShape2D = self.get_collision_of_area(area)
-		if collision.shape.get_rect().has_point(self.position):
+		var collision: Rect2 = self.get_collision_of_area(area)
+		if collision.has_point(self.position):
 			self.crashed = true
 			self.did_crash.emit()
 
@@ -75,13 +74,15 @@ func get_collide_target() -> CollisionObject2D:
 		return null
 
 ## Get collision for an area. Area must use exactly one CollisionShape2D
-func get_collision_of_area(area: Area2D) -> CollisionShape2D:
+func get_collision_of_area(area: Area2D) -> Rect2:
 	for child in area.get_children():
 		if child is CollisionShape2D:
-			return child
-	return null  # Unreachable if all areas uphold the doc mentioned above
+			var rect: Rect2 = child.shape.get_rect()
+			return Rect2(child.global_position.x, child.global_position.y, rect.size.x, rect.size.y)
+	return Rect2()  # Unreachable if all areas uphold the doc mentioned above
 
 
+## Get speed of this ship.
 func get_speed() -> float:
 	return SPEED
 
