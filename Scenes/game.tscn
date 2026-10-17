@@ -1,13 +1,57 @@
 [gd_scene format=3 uid="uid://bafknhql1mfx7"]
 
 [ext_resource type="PackedScene" uid="uid://c1loicnfuquuq" path="res://Scenes/lighthouse.tscn" id="1_ebmjs"]
+[ext_resource type="Script" uid="uid://b8byusgy5dq6h" path="res://Scripts/game.gd" id="1_qxrlw"]
+[ext_resource type="PackedScene" uid="uid://d0rbdkjm5pldx" path="res://Scenes/rock.tscn" id="3_wrm1d"]
 
 [node name="Game" type="Node2D" unique_id=1516169995]
+script = ExtResource("1_qxrlw")
 
 [node name="Background" type="ColorRect" parent="." unique_id=633306872]
 offset_right = 720.0
 offset_bottom = 720.0
 color = Color(0, 0, 0.24705882, 1)
+
+[node name="Rocks" type="Node2D" parent="." unique_id=260382543]
+
+[node name="RockN" parent="Rocks" unique_id=1938764703 instance=ExtResource("3_wrm1d")]
+position = Vector2(-606, -386)
+
+[node name="RockS" parent="Rocks" unique_id=1788990594 instance=ExtResource("3_wrm1d")]
+position = Vector2(-606, -386)
+placement = 1
+
+[node name="RockE" parent="Rocks" unique_id=2123944510 instance=ExtResource("3_wrm1d")]
+position = Vector2(-606, -384)
+placement = 2
+
+[node name="RockW" parent="Rocks" unique_id=1321709870 instance=ExtResource("3_wrm1d")]
+position = Vector2(-607, -385)
+placement = 3
+
+[node name="RockR1" parent="Rocks" unique_id=592149500 instance=ExtResource("3_wrm1d")]
+position = Vector2(-607, -385)
+placement = 4
+
+[node name="RockR2" parent="Rocks" unique_id=1395953426 instance=ExtResource("3_wrm1d")]
+position = Vector2(-607, -385)
+placement = 4
+
+[node name="RockR3" parent="Rocks" unique_id=1936390527 instance=ExtResource("3_wrm1d")]
+position = Vector2(-607, -385)
+placement = 4
+
+[node name="RockR4" parent="Rocks" unique_id=724045577 instance=ExtResource("3_wrm1d")]
+position = Vector2(-607, -385)
+placement = 4
+
+[node name="RockR5" parent="Rocks" unique_id=1288449490 instance=ExtResource("3_wrm1d")]
+position = Vector2(-607, -385)
+placement = 4
+
+[node name="RockR6" parent="Rocks" unique_id=1179018123 instance=ExtResource("3_wrm1d")]
+position = Vector2(-607, -385)
+placement = 4
 
 [node name="Lighthouse" parent="." unique_id=1137881333 instance=ExtResource("1_ebmjs")]
 position = Vector2(360, 360)

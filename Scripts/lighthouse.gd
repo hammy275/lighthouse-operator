@@ -33,6 +33,7 @@ var current_distance: float = MIN_TRAVEL_RADIUS
 func _ready() -> void:
 	var circle_shape: CircleShape2D = $Light/LightCircleShape.shape
 	circle_shape.radius = RADIUS_PER_STAGE
+	Global.lighthouse = self
 	self.reset_for_level()
 
 
@@ -77,7 +78,7 @@ func calc_and_set_pos() -> void:
 
 ## Updates the light path based on the light spot's position and the light radius
 func update_light_path() -> void:
-	var radius = self.current_stage * RADIUS_PER_STAGE
+	var radius = self.get_light_radius()
 	
 	var circle_center: Vector2 = $Light.global_position
 	var angle: Vector2 = Vector2.RIGHT.rotated(self.current_rotation + PI / 2.0)
@@ -94,3 +95,16 @@ func update_light_path() -> void:
 	
 	light_path_shader.set_shader_parameter("circle_center", circle_center)
 	light_path_shader.set_shader_parameter("radius_squared", radius * radius)
+
+## Get the center of the light
+func get_light_center() -> Vector2:
+	return $Light.global_position
+
+## Get the radius of the light.
+func get_light_radius() -> float:
+	return self.current_stage * RADIUS_PER_STAGE
+
+## Get the radius of the light squared.
+func get_light_radius_squared() -> float:
+	var radius = get_light_radius()
+	return radius * radius

@@ -11,7 +11,7 @@ void fragment() {
 		if ((int(VERTEX.x / DITHER_PIXEL_SIZE) + int(VERTEX.y / DITHER_PIXEL_SIZE)) % 2 == 1) {
 			COLOR.a = dither_alpha;
 		} else {
-			COLOR.a = 1.0;
+			COLOR.a = 0.25;
 		}
 	}
 }
