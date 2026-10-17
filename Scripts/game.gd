@@ -39,7 +39,7 @@ func reset_for_level() -> void:
 func reset_ship_spawn_timer() -> void:
 	if not self.did_first_ship_spawn:
 		# Give the player 30 seconds to get their bearings and find obstacles.
-		$ShipSpawnTimer.start(1.0)
+		$ShipSpawnTimer.start(30.0)
 		self.did_first_ship_spawn = true
 	else:
 		var random = randf() * 2.0 - 1.0
