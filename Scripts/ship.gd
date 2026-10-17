@@ -40,6 +40,8 @@ func _process(delta: float) -> void:
 	$AlwaysDodgeRay.target_position = self.velocity.normalized() * OBSTACLE_SEARCH_DISTANCE
 	$RockRay.target_position = self.velocity.normalized() * ROCK_VIEW_DISTANCE
 	var collide_target: CollisionObject2D = get_collide_target()
+	$Sprite.modulate.g = 1.0
+	$Sprite.modulate.b = 1.0
 	if collide_target != null:
 		# Rotate both directions, "move forward", and see which is farther from the obstacle center.
 		var new_velocity_a: Vector2 = velocity.rotated(self.rotation_speed() * delta).normalized()
@@ -51,6 +53,10 @@ func _process(delta: float) -> void:
 			self.velocity = new_velocity_a * get_speed()
 		else:
 			self.velocity = new_velocity_b * get_speed()
+		
+		if Global.Powerup.STUDY_SHIP_VIEW in Global.powerups:
+			$Sprite.modulate.g = 0.5
+			$Sprite.modulate.b = 0.5
 	
 	# Move based on velocity
 	self.position += self.velocity * delta
