@@ -84,6 +84,7 @@ func spawn_ship() -> void:
 	if Global.level_num >= 3 and randf() <= 1.0 / 3.0:
 		ship.is_big_ship = true
 	ship.left_bounds.connect(self._on_ship_left_bounds)
+	ship.did_crash.connect(self._on_ship_did_crash)
 	$Ships.add_child(ship)
 
 func _on_ship_left_bounds() -> void:
