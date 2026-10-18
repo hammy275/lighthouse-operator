@@ -9,6 +9,15 @@ signal start_next_level()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	self.setup()
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func setup() -> void:
 	if Global.level_num == 2:
 		# Left powerup is whatever wasn't already taken in level 1
 		if Global.Powerup.BETTER_OIL in Global.powerups:
@@ -20,16 +29,11 @@ func _ready() -> void:
 		right_powerup = Global.Powerup.STUDY_SHIP_VIEW
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
 func _on_left_button_pressed() -> void:
-	Global.powerups.set(left_powerup, true)
+	Global.powerups[left_powerup] = true
 	self.start_next_level.emit()
 
 
 func _on_right_button_pressed() -> void:
-	Global.powerups.set(right_powerup, true)
+	Global.powerups[right_powerup] = true
 	self.start_next_level.emit()

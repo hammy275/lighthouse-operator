@@ -111,6 +111,7 @@ func reset_for_level() -> void:
 		self.turn_speed = PI / 8.0
 		self.inout_speed = 0.5
 	self.relight_counter = 0.0
+	self.doing_relight = false
 	self.calc_and_set_pos()
 
 ## Calculates and sets the light's position based on its current rotation and distance.

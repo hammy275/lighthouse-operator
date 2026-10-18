@@ -23,6 +23,7 @@ var did_first_ship_spawn: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Global.reset()
 	self.build_game.call_deferred()
 	self.reset_for_level()
 
@@ -35,7 +36,10 @@ func reset_for_level() -> void:
 	$LevelCompletePowerupSelect.visible = false
 	$Lighthouse.reset_for_level()
 	$LevelLabel.text = "Day: " + str(Global.level_num) + "/3"
+	$RefuelButton.disabled = false
 	self.reset_ship_spawn_timer()
+	Global.current_hour = 0
+	_on_hour_counter_timeout()
 	while $Ships.get_child_count() > 0:
 		$Ships.remove_child($Ships.get_child(0))
 
@@ -96,6 +100,7 @@ func _on_ship_did_crash() -> void:
 	Global.score -= 3
 	if Global.score < 0:
 		Global.score = 0
+	Global.crashed += 1
 	self.update_score_label()
 
 func update_score_label() -> void:
@@ -167,8 +172,12 @@ func _on_hour_counter_timeout() -> void:
 	Global.current_hour += 1
 	$HourLabel.text = "Hour: " + str(Global.current_hour) + "/12"
 	if Global.current_hour > 12:
-		$LevelCompletePowerupSelect.show()
-		get_tree().paused = true
+		if Global.level_num <= 2:
+			get_tree().paused = true
+			$LevelCompletePowerupSelect.show()
+			$LevelCompletePowerupSelect.setup()
+		else:
+			get_tree().change_scene_to_file("res://Scenes/end_screen.tscn")
 
 
 func _on_level_complete_powerup_select_start_next_level() -> void:
