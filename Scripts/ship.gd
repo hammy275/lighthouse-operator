@@ -15,6 +15,8 @@ var velocity: Vector2 = Vector2.UP
 var crashed: bool = false
 ## Whether this is a big ship.
 var is_big_ship: bool = false
+## Texture to display when this boat crashes
+var crash_texture
 
 ## Signal for when the ship leaves the game area.
 signal left_bounds()
@@ -26,9 +28,11 @@ func _ready() -> void:
 	var texture
 	if self.is_big_ship:
 		texture = load("res://Images/Boat/BigBoat.png")
+		self.crash_texture = load("res://Images/Boat/BigBoatCrash.png")
 		$ShipArea.scale = Vector2(2.0, 2.0)
 	else:
 		texture = load("res://Images/Boat/Boat" + str(randi_range(1, 2)) + ".png")
+		self.crash_texture = load("res://Images/Boat/Boat" + str(randi_range(1, 2)) + "Crash.png")
 	$Sprite.texture = texture
 	$ShipSpawnAudio.play()
 
@@ -67,6 +71,7 @@ func _process(delta: float) -> void:
 	if $RockRayHit.is_colliding():
 		self.crashed = true
 		self.did_crash.emit()
+		$Sprite.texture = self.crash_texture
 		$ShipCrashAudio.play()
 	
 
