@@ -40,13 +40,18 @@ func reset_for_level() -> void:
 	self.reset_ship_spawn_timer()
 	Global.current_hour = 0
 	_on_hour_counter_timeout()
+	self.reset_and_count_ships()
+
+
+func reset_and_count_ships() -> void:
 	while $Ships.get_child_count() > 0:
 		var ship: Ship = $Ships.get_child(0) as Ship
 		if not ship.crashed:
 			Global.score += 1
+			if ship.is_big_ship:
+				Global.score += 1
 		$Ships.remove_child($Ships.get_child(0))
 	self.update_score_label()
-
 
 func reset_ship_spawn_timer() -> void:
 	if not self.did_first_ship_spawn:
@@ -193,6 +198,7 @@ func _on_hour_counter_timeout() -> void:
 			$LevelCompletePowerupSelect.show()
 			$LevelCompletePowerupSelect.setup()
 		else:
+			self.reset_and_count_ships()
 			get_tree().change_scene_to_file("res://Scenes/end_screen.tscn")
 
 
