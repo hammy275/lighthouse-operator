@@ -75,7 +75,7 @@ func _process(delta: float) -> void:
 	
 	# Light radius
 	if self.doing_relight:
-		if self.relight_counter >= 10.0:
+		if self.relight_counter >= BEGIN_RELIGHT_TIME:
 			var relight_time: float = STAGE_RELIGHT_TIME
 			if Global.Powerup.BETTER_OIL in Global.powerups:
 				relight_time *= 0.75
@@ -87,7 +87,7 @@ func _process(delta: float) -> void:
 				self.relight_counter = 0.0
 		else:
 			self.relight_counter += delta
-	else:
+	elif Global.current_hour > 1 or Global.level_num > 1:  # Let player not deal with light shrink on hour 1 of day 1
 		current_stage -= delta / STAGE_DECREASE_TIME
 		if current_stage < 0:
 			current_stage = 0

@@ -34,6 +34,7 @@ func _process(delta: float) -> void:
 func reset_for_level() -> void:
 	$LevelCompletePowerupSelect.visible = false
 	$Lighthouse.reset_for_level()
+	$LevelLabel.text = "Day: " + str(Global.level_num) + "/3"
 	self.reset_ship_spawn_timer()
 	while $Ships.get_child_count() > 0:
 		$Ships.remove_child($Ships.get_child(0))
@@ -172,4 +173,5 @@ func _on_hour_counter_timeout() -> void:
 
 func _on_level_complete_powerup_select_start_next_level() -> void:
 	get_tree().paused = false
+	Global.level_num += 1
 	self.reset_for_level()
