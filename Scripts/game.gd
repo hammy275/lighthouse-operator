@@ -41,13 +41,17 @@ func reset_for_level() -> void:
 	Global.current_hour = 0
 	_on_hour_counter_timeout()
 	while $Ships.get_child_count() > 0:
+		var ship: Ship = $Ships.get_child(0) as Ship
+		if not ship.crashed:
+			Global.score += 1
 		$Ships.remove_child($Ships.get_child(0))
+	self.update_score_label()
 
 
 func reset_ship_spawn_timer() -> void:
 	if not self.did_first_ship_spawn:
-		# Give the player 30 seconds to get their bearings and find obstacles.
-		$ShipSpawnTimer.start(30.0)
+		# Give the player 25 seconds to get their bearings and find obstacles.
+		$ShipSpawnTimer.start(25.0)
 		self.did_first_ship_spawn = true
 	else:
 		var random = randf() * 2.0 - 1.0
@@ -66,23 +70,35 @@ func spawn_ship() -> void:
 	var target: Vector2 = Vector2()
 	match direction:
 		Global.Direction.NORTH:
-			ship.position.x = randi_range(0, get_viewport().size.x)
+			if randf() <= 0.5:
+				ship.position.x = randi_range(0, get_viewport().size.x * 1.0 / 3.0)
+			else:
+				ship.position.x = randi_range(get_viewport().size.x * 2.0 / 3.0, get_viewport().size.x)
 			ship.position.y = 0
 			target.x = randi_range(0, get_viewport().size.x)
 			target.y = get_viewport().size.y
 		Global.Direction.SOUTH:
-			ship.position.x = randi_range(0, get_viewport().size.x)
+			if randf() <= 0.5:
+				ship.position.x = randi_range(0, get_viewport().size.x * 1.0 / 3.0)
+			else:
+				ship.position.x = randi_range(get_viewport().size.x * 2.0 / 3.0, get_viewport().size.x)
 			ship.position.y = get_viewport().size.y
 			target.x = randi_range(0, get_viewport().size.x)
 			target.y = 0
 		Global.Direction.EAST:
 			ship.position.x = get_viewport().size.x
-			ship.position.y = randi_range(0, get_viewport().size.y)
+			if randf() <= 0.5:
+				ship.position.y = randi_range(0, get_viewport().size.y * 1.0 / 3.0)
+			else:
+				ship.position.y = randi_range(get_viewport().size.y * 2.0 / 3.0, get_viewport().size.y)
 			target.x = 0
 			target.y = randi_range(0, get_viewport().size.y)
 		Global.Direction.WEST:
 			ship.position.x = 0
-			ship.position.y = randi_range(0, get_viewport().size.y)
+			if randf() <= 0.5:
+				ship.position.y = randi_range(0, get_viewport().size.y * 1.0 / 3.0)
+			else:
+				ship.position.y = randi_range(get_viewport().size.y * 2.0 / 3.0, get_viewport().size.y)
 			target.x = get_viewport().size.x
 			target.y = randi_range(0, get_viewport().size.y)
 	ship.velocity = (target - ship.position).normalized() * ship.get_speed()
@@ -92,12 +108,12 @@ func spawn_ship() -> void:
 	ship.did_crash.connect(self._on_ship_did_crash)
 	$Ships.add_child(ship)
 
-func _on_ship_left_bounds() -> void:
-	Global.score += 1
+func _on_ship_left_bounds(score: int) -> void:
+	Global.score += score
 	self.update_score_label()
 
 func _on_ship_did_crash() -> void:
-	Global.score -= 3
+	Global.score -= 1
 	if Global.score < 0:
 		Global.score = 0
 	Global.crashed += 1

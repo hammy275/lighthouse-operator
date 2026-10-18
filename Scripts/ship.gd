@@ -3,7 +3,7 @@ class_name Ship extends Area2D
 ## Distance ahead to look for always dodge obstacles.
 const OBSTACLE_SEARCH_DISTANCE: int = 400
 ## Distance ahead that rocks are counted as being seen.
-const ROCK_VIEW_DISTANCE: int = 200
+const ROCK_VIEW_DISTANCE: int = 250
 ## Speed of the ship in pixels per second.
 const SPEED: float = 720.0 / 60.0
 ## Rotation speed in radians.
@@ -19,7 +19,7 @@ var is_big_ship: bool = false
 var crash_texture
 
 ## Signal for when the ship leaves the game area.
-signal left_bounds()
+signal left_bounds(score: int)
 ## Signal for when the ship crashes.
 signal did_crash()
 
@@ -59,7 +59,7 @@ func _process(delta: float) -> void:
 		else:
 			self.velocity = new_velocity_b * get_speed()
 		
-		if Global.Powerup.STUDY_SHIP_VIEW in Global.powerups:
+		if Global.Powerup.STUDY_SHIP_VIEW in Global.powerups and collide_target is Rock:
 			$Sprite.modulate.g = 0.5
 			$Sprite.modulate.b = 0.5
 	
@@ -109,5 +109,8 @@ func rotation_speed() -> float:
 
 
 func _on_on_screen_notifier_screen_exited() -> void:
-	self.left_bounds.emit()
+	var score: int = 1
+	if self.is_big_ship:
+		score += 1
+	self.left_bounds.emit(score)
 	self.queue_free()

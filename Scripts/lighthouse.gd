@@ -12,7 +12,7 @@ var MAX_TRAVEL_RADIUS: int = get_viewport().size.y / 2 - (MAX_STAGES * RADIUS_PE
 ## Start rotation for the light
 var START_ROTATION: float = PI / 2.0
 ## Time in seconds to go down by a stage (1.0 in radius).
-var STAGE_DECREASE_TIME: int = 30
+var STAGE_DECREASE_TIME: int = 45
 ## Time in seconds until relighting begins after starting the process.
 var BEGIN_RELIGHT_TIME: float = 5.0
 ## Time in seconds to relight one stage.

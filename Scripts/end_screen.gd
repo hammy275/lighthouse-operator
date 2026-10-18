@@ -6,7 +6,7 @@ extends Control
 func _ready() -> void:
 	if Global.score > Global.high_score:
 		Global.high_score = Global.score
-	$Score.text = $Score.text % [Global.score, Global.high_score, Global.crashed]
+	$Score.text = $Score.text % [Global.score, Global.crashed, Global.high_score]
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
