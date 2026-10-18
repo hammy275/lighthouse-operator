@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bklflm6wb4b1y"]
 
 [ext_resource type="Script" uid="uid://drycy6bhowjpx" path="res://Scripts/title_screen.gd" id="1_klylv"]
+[ext_resource type="Texture2D" uid="uid://bustsrhsp8uod" path="res://Images/Tutorial/shine_on_obstacles.png" id="2_p3fck"]
 
 [node name="TitleScreen" type="Control" unique_id=1604011098]
 layout_mode = 3
@@ -25,9 +26,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -241.0
-offset_top = -133.5
+offset_top = -233.5
 offset_right = 241.0
-offset_bottom = -66.5
+offset_bottom = -166.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
@@ -44,12 +45,21 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -105.0
-offset_top = -26.5
+offset_top = 173.5
 offset_right = 105.0
-offset_bottom = 26.5
+offset_bottom = 226.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 text = "Start Game"
+
+[node name="ShineOnObstacles" type="TextureRect" parent="." unique_id=1878928897]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 221.0
+offset_right = 600.0
+offset_bottom = 581.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_p3fck")
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

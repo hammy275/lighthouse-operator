@@ -126,7 +126,7 @@ func update_light_path() -> void:
 	var angle: Vector2 = Vector2.RIGHT.rotated(self.current_rotation + PI / 2.0)
 	var offset: Vector2 = angle * radius
 	
-	var light_origin_center: Vector2 = Vector2($Sprite.global_position.x, $Sprite.global_position.y - $Sprite.get_rect().size.y / 4.0)
+	var light_origin_center: Vector2 = Vector2($Sprite.global_position.x, $Sprite.global_position.y - $Sprite.get_rect().size.y / 2.3)
 	
 	$LightPath.global_position = Vector2(0, 0)
 	$LightPath.polygon = PackedVector2Array([
