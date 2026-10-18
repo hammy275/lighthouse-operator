@@ -51,7 +51,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	# Input handling
-	var is_moving: bool = false
+	var play_moving_sound: bool = false
 	if not self.doing_relight:
 		var input_rotate: float = Input.get_axis("move_left", "move_right") * delta * turn_speed
 		if input_rotate != 0:
@@ -61,17 +61,16 @@ func _process(delta: float) -> void:
 			elif current_rotation < 0:
 				current_rotation += PI * 2
 			self.calc_and_set_pos()
-			is_moving = true
+			play_moving_sound = true
 		else:
 			var input_inout = Input.get_axis("move_down", "move_up")
 			if input_inout != 0:
 				current_distance += input_inout * inout_speed
 				current_distance = min(max(MIN_TRAVEL_RADIUS, current_distance), MAX_TRAVEL_RADIUS)
 				self.calc_and_set_pos()
-				is_moving = true
-	if is_moving and not $RotateSounds.playing:
+	if play_moving_sound and not $RotateSounds.playing:
 		$RotateSounds.play()
-	elif not is_moving and $RotateSounds.playing:
+	elif not play_moving_sound and $RotateSounds.playing:
 		$RotateSounds.stop()
 	
 	# Light radius
