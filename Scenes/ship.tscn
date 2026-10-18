@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dxvusj8vfn7pb" path="res://Scripts/ship.gd" id="1_4qyt1"]
 [ext_resource type="Texture2D" uid="uid://bgeoebnqkoi15" path="res://Images/Boat/Boat1.png" id="1_78pfh"]
 [ext_resource type="AudioStream" uid="uid://bpto5n067dtj6" path="res://Sound/ship_spawn.wav" id="3_xxxu3"]
+[ext_resource type="AudioStream" uid="uid://btt6cp12s8umq" path="res://Sound/ship_crash.wav" id="4_6ejuo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4qyt1"]
 size = Vector2(30, 28)
@@ -48,5 +49,8 @@ collide_with_bodies = false
 
 [node name="ShipSpawnAudio" type="AudioStreamPlayer" parent="." unique_id=1506174145]
 stream = ExtResource("3_xxxu3")
+
+[node name="ShipCrashAudio" type="AudioStreamPlayer" parent="." unique_id=1412888797]
+stream = ExtResource("4_6ejuo")
 
 [connection signal="screen_exited" from="OnScreenNotifier" to="." method="_on_on_screen_notifier_screen_exited"]

@@ -67,6 +67,7 @@ func _process(delta: float) -> void:
 	if $RockRayHit.is_colliding():
 		self.crashed = true
 		self.did_crash.emit()
+		$ShipCrashAudio.play()
 	
 
 ## Get the nearest target that the ship can collide with.
